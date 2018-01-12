@@ -18,6 +18,7 @@ function scrollToBottom () {
             
 socket.on('connect', function() {
     var params = jQuery.deparam(window.location.search);
+    params.room = params.room.toUpperCase();
     
     socket.emit('join', params, function (err) {
         if (err) {
@@ -27,6 +28,11 @@ socket.on('connect', function() {
             console.log('No error');
         }
     });
+});
+
+jQuery('#leave-room').on('click', function () {
+    socket.emit('disconnect');
+    window.location.href = '/';
 });
             
 socket.on('disconnect', function() {

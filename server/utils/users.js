@@ -39,6 +39,12 @@ class Users {
         
         return namesArray;
     }
+    getUserByName (name) {
+        return this.users.filter((user) => user.name === name)[0];
+    }
+    getActiveRoomList () {
+        return Array.from(new Set(this.users.map((user) => user.room)));
+    }
 }
 
 //class Person {

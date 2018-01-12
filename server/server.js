@@ -15,12 +15,18 @@ var users = new Users();
 
 app.use(express.static(publicPath));
 
+app.get('/getRooms', (req, res) => {
+    res.send({activeRooms: users.getActiveRoomList()});
+});
+
 io.on('connection', (socket) => {
     console.log('New User connected');
     
     socket.on('join', (params, callback) => {
         if (!isRealString(params.name) || !isRealString(params.room)) {
             return callback('Name and Room Name is required.');
+        } else if (users.getUserByName(params.name)) {
+            return callback('Name already exists in the room, use different name');
         }
         
         socket.join(params.room);
@@ -30,6 +36,7 @@ io.on('connection', (socket) => {
         io.to(params.room).emit('updateUserList', users.getUserList(params.room));        
         socket.emit('newMessage', generateMessage('Admin', 'Welcome to the Chat App'));
         socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.name} has joined`));
+        io.emit('newConnection', {});
         callback();
     });
     
@@ -58,6 +65,7 @@ io.on('connection', (socket) => {
         if(user) {
             io.to(user.room).emit('updateUserList', users.getUserList(user.room));
             io.to(user.room).emit('newMessage', generateMessage('Admin', `${user.name} has left.`));
+            io.emit('newConnection', {});
         }
     });
 });

@@ -85,6 +85,7 @@ button:disabled {
 
 .chat__sidebar {
   overflow-y: auto;
+  position: relative;
   width: 260px;
   height: 100vh;
   background: -moz-linear-gradient(125deg, rgba(39,107,130,1) 0%, rgba(49,84,129,1) 100%); /* ff3.6+ */
@@ -111,6 +112,7 @@ button:disabled {
   border-radius: 5px;
   padding: 10px;
   margin: 10px;
+  padding-bottom: 20px;
 }
 
 .chat__main {
@@ -170,6 +172,22 @@ button:disabled {
 
 .message__title span {
   color: #999;
+}
+
+.chat__leave {
+    display: block;
+    position: fixed;
+    bottom: 10px;
+    left: 30px;
+    background-color: red;
+    padding: 10px 30px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.chat__leave:hover {
+    background-color: #ff3a3a;
+    padding: 10px 30px;
 }
 
 @media (max-width: 600px) {
